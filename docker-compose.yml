@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  db:
+    build: ./docker/mysql
+    container_name: desafio_dev_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: desafio_dev
+    ports:
+      - "3030:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
