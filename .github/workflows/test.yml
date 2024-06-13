@@ -1,0 +1,31 @@
+name: Teste de build com docker
+
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+
+            - name: Build services
+              run: docker-comopse build
+
+            - name: Run services
+              run: docker-compose up
+            
+            - name: Verify
+              run: docker-compose ps
+            
+            - name: Down services
+              if: always()
+              run: docker-compose down
+            
