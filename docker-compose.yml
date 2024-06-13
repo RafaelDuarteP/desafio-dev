@@ -1,16 +1,39 @@
-version: '3.8'
+# version: '3.8'
 
 services:
   db:
-    build: ./docker/mysql
     container_name: desafio_dev_mysql
+    image: mysql:8.0
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: desafio_dev
+    command: --init-file /docker-entrypoint-initdb.d/init.sql
     ports:
       - "3030:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -proot || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  api:
+    container_name: desafio_dev_api
+    build: ./backend
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail -S GET localhost:8080/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
 volumes:
   mysql_data:

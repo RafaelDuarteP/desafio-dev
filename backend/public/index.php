@@ -9,9 +9,12 @@ require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../src/core/Router.php';
 require_once __DIR__ . '/../src/core/Response.php';
 require_once __DIR__ . '/../src/controllers/CidadaoController.php';
+require_once __DIR__ . '/../src/controllers/DefaultController.php';
 
 $router = new Router();
 
+
+$router->addRoute('GET','/','DefaultController::index');
 $router->addRoute('GET', '/cidadaos', 'CidadaoController::getCidadaos');
 $router->addRoute('GET', '/cidadaos/{id}', 'CidadaoController::getCidadao');
 $router->addRoute('POST', '/cidadaos', 'CidadaoController::createCidadao');

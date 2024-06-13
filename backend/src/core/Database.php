@@ -3,11 +3,11 @@
 class Database{
     private $connection;
 
-    private $host = 'localhost';
+    private $host = 'db';
     private $user = 'root';
     private $password = 'root';
     private $database = 'desafio_dev_mysql';
-    private $port = '3030';
+    private $port = '3306';
 
     public function __construct(){
         $this->connection = new mysqli($this->host, $this->user, $this->password, $this->database, $this->port);
