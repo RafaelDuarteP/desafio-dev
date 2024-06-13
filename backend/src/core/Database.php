@@ -3,7 +3,7 @@
 class Database{
     private $connection;
 
-    private $host = 'db';
+    private $host = 'localhost';
     private $user = 'root';
     private $password = 'root';
     private $database = 'desafio_dev_mysql';
@@ -11,13 +11,16 @@ class Database{
 
     public function __construct(){
         $this->connection = new mysqli($this->host, $this->user, $this->password, $this->database, $this->port);
-        if($this->connection->connect_error){
-            die('Connection failed: ' . $this->connection->connect_error);
-        }
     }
 
-    public function query($sql){
-        return $this->connection->query($sql);
+    public function query($sql,$types = null ,...$params){
+        $stmt = $this->connection->prepare($sql);
+        if ($params && $types){
+        $stmt->bind_param($types, ...$params);
+        }
+        $stmt->execute();
+        $results = $stmt->get_result();
+        return $results;
     }
 
     public function fetch($result){
