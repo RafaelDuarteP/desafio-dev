@@ -15,7 +15,7 @@ class CidadaoController{
             }
             Response::send(200, $response);
         }catch(Exception $e){         
-            Response::send(500);
+            Response::send(500, ['mensagem' => 'Erro ao buscar cidadãos']);
         }
     }
 
@@ -27,17 +27,17 @@ class CidadaoController{
             if($cidadao){
                 Response::send(200, $cidadao->toArray());
             }else{
-                Response::send(404, ['error' => 'Cidadão não encontrado']);
+                Response::send(404, ['mensagem' => 'Cidadão não encontrado']);
             }
         }catch(Exception $e){
-            Response::send(500);
+            Response::send(500, ['mensagem' => 'Erro ao buscar cidadão']);
         }
     }
 
     public static function createCidadao(){
         $input = json_decode(file_get_contents('php://input'), true);
         if (!isset($input['nome'])) {
-            Response::send(400, ['error' => 'Nome é obrigatório']);
+            Response::send(400, ['mensagem' => 'Argumentos inválidos: "nome" é obrigatório']);
         }
         try{
             $nome = $input['nome'];
@@ -48,15 +48,13 @@ class CidadaoController{
             $cidadaoRepository->save($cidadao);
             Response::send(201, $cidadao->toArray());
         }catch(Exception $e){
-            Response::send(500);
+            Response::send(500, ['mensagem' => 'Erro ao criar cidadão']);
         }
         
     }
 
     public static function updateCidadao($id){
         $input = json_decode(file_get_contents('php://input'), true);
-        Response::send(200,  ['message' => 'Not implemented yet',
-                                'id' => $id[0],
-                                'input' => $input]);
+        Response::send(501, ['mensagem'=>'Função ainda não implementada']);
     }
 }

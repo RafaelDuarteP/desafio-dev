@@ -23,6 +23,6 @@ class Router {
             }
         }
 
-        Response::send(404, ['error' => 'Not found']);
+        Response::send(404, ['mensagem' => 'Rota não encontrada']);
     }
 }
