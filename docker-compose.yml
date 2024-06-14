@@ -27,8 +27,7 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      db:
-        condition: service_healthy
+      - db
     healthcheck:
       test: ["CMD-SHELL", "curl --fail -S GET localhost:8080/ || exit 1"]
       interval: 30s
