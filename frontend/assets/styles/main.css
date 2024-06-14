@@ -1,0 +1,38 @@
+.tabela-cadastrados {
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 30px;
+    padding: 10px;
+}
+
+.card-cidadao {
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 30px;
+    padding: 0;
+}
+
+.input {
+    padding-right: 60px;
+    padding-left: 60px;
+}
+
+.nav-item {
+    font-size: 18pt;
+    cursor: pointer;
+}
+
+.nav-link {
+    color: rgb(54, 54, 54);
+}
+
+.nav-link:hover {
+    color: black;
+    font-weight: 500;
+}
+
+.nav-link.active {
+    font-weight: 700;
+}
