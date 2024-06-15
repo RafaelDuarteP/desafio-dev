@@ -33,6 +33,25 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+      
+  app:
+    container_name: desafio_dev_app
+    build: ./frontend
+    restart: always
+    ports:
+      - "5500:5500"
+    depends_on:
+      - api
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "3000:80"
+    volumes:
+      - ./docker/nginx/nginx.config:/etc/nginx/nginx.config:ro
+    depends_on:
+      - api
+      - app
 
 volumes:
   mysql_data:

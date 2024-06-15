@@ -1,6 +1,6 @@
 // CONSTANTES
 
-const API_URL = 'http://localhost:8080';
+const API_URL = 'http://api:8080';
 
 // NAVEGAÇÃO ENTRE AS PÁGINAS
 
@@ -120,7 +120,6 @@ function updateTable(rows) {
 
 function toggleLoading(local, status) {
     const loading = document.querySelector(`#${local} .loading`);
-    console.log(loading)
     loading.classList.toggle('d-none', !status);
 }
 
