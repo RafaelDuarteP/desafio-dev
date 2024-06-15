@@ -13,9 +13,9 @@ const pages = {
 function changePage(page, obj) {
     if (page in pages) {
         Object.values(pages).forEach(page => {
-            document.querySelector(`.page#${page}`).style.display = 'none';
+            document.querySelector(`.page#${page}`).classList.toggle('d-none', true);
         });
-        document.querySelector(`.page#${pages[page]}`).style.display = 'block';
+        document.querySelector(`.page#${pages[page]}`).classList.toggle('d-none', false);
     }
     document.querySelectorAll('a.nav-link').forEach(link => {
         link.classList.remove('active');
@@ -70,6 +70,7 @@ function preencheCidadao(local, data) {
     } else {
         cardCidadao.innerHTML = generateNotFoundHTML();
     }
+    toggleCard(local, true);
 }
 
 function generateCidadaoHTML(data) {
@@ -110,11 +111,23 @@ function updateTable(rows) {
     }
 }
 
+function toggleLoading(local, status) {
+    const loading = document.querySelector(`#${local} .loading`);
+    console.log(loading)
+    loading.classList.toggle('d-none', !status);
+}
+
+function toggleCard(local, status) {
+    const card = document.querySelector(`#${local} .card-cidadao`);
+    card.classList.toggle('d-none', !status);
+}
+
 
 // FUNÇÕES DE CADASTRO E BUSCA
 
 async function criaCidadao(event) {
     event.preventDefault();
+    toggleCard('cadastro', false);
     const inputNome = document.querySelector('#nome');
     validaNome(inputNome);
     const value = inputNome.value
@@ -123,11 +136,13 @@ async function criaCidadao(event) {
         return;
     };
     inputNome.value = '';
+    toggleLoading('cadastro', true);
     try {
         const data = {
             nome: value
         };
         const response = await postData(`${API_URL}/cidadaos`, data);
+        toggleLoading('cadastro', false);
         preencheCidadao('cadastro', response);
     } catch (error) {
         console.error("Erro ao cadastrar cidadão:", error);
@@ -136,6 +151,7 @@ async function criaCidadao(event) {
 
 async function buscaCidadao(event) {
     event.preventDefault();
+    toggleCard('busca', false);
     const inputNis = document.querySelector('#nis');
     const value = inputNis.value;
     if (validaNis(inputNis)) {
@@ -143,8 +159,10 @@ async function buscaCidadao(event) {
         return;
     }
     inputNis.value = '';
+    toggleLoading('busca', true);
     try {
-        const response = await fetchData(`${API_URL}:8080/cidadaos/${value}`);
+        const response = await fetchData(`${API_URL}/cidadaos/${value}`);
+        toggleLoading('busca', false);
         preencheCidadao('busca', response);
     } catch (error) {
         console.error("Erro ao buscar dados do cidadão:", error);
@@ -179,9 +197,9 @@ formCadastro.addEventListener('submit', criaCidadao);
 document.addEventListener("DOMContentLoaded", function () {
     function handlePageStyleChange(mutations) {
         mutations.forEach(mutation => {
-            if (mutation.attributeName === "style") {
+            if (mutation.attributeName === "class") {
                 let target = mutation.target;
-                if (target.style.display === "block") {
+                if (!target.classList.contains("d-none")) {
                     buscaAllCidadaos();
                 }
             }
@@ -189,7 +207,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const observer = new MutationObserver(handlePageStyleChange);
-    const config = { attributes: true, attributeFilter: ['style'] };
+    const config = { attributes: true, attributeFilter: ['class'] };
 
     observer.observe(listaCidadaos, config);
 });

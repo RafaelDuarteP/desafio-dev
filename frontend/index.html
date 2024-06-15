@@ -27,7 +27,7 @@
     </header>
 
 
-    <section id="cadastro" class="container-lg mt-5 page">
+    <section id="cadastro" class="container-lg mt-5 page d-block">
         <div class="row justify-content-center">
             <h2 class="text-center col-12">
                 Cadastrar cidadão
@@ -42,12 +42,20 @@
                 </form>
             </div>
 
-            <div class="col-11 col-md-4 card-cidadao mt-2">
+            <div class="col-11 col-md-4 card-cidadao mt-2 d-none">
+            </div>
+            
+            <div class="row mt-3 justify-content-center">
+                <div class="col-auto loading d-none">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
             </div>
 
     </section>
 
-    <section id="busca" class="container-lg mt-5 page" style="display: none;">
+    <section id="busca" class="container-lg mt-5 page d-none">
         <div class="row justify-content-center">
             <h2 class="text-center col-12">
                 Busca por NIS
@@ -62,11 +70,18 @@
                 </form>
             </div>
 
-            <div class="col-11 col-md-4 card-cidadao mt-2">
+            <div class="col-11 col-md-4 card-cidadao mt-2 d-none">
+            </div>
+            <div class="row mt-3 justify-content-center">
+                <div class="col-auto loading d-none">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
             </div>
     </section>
 
-    <section id="lista" class="container-lg mt-5 page" style="display: none;">
+    <section id="lista" class="container-lg mt-5 page d-none">
         <div class="row justify-content-center">
             <div class="col-11 col-md-8 tabela-cadastrados">
                 <caption class="caption-top">
