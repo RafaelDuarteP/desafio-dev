@@ -1,3 +1,7 @@
+// CONSTANTES
+
+const API_URL = 'http://localhost:8080';
+
 // NAVEGAÇÃO ENTRE AS PÁGINAS
 
 const pages = {
@@ -112,13 +116,18 @@ function updateTable(rows) {
 async function criaCidadao(event) {
     event.preventDefault();
     const inputNome = document.querySelector('#nome');
-    const value = inputNome.value;
+    validaNome(inputNome);
+    const value = inputNome.value
+    if (validaNome(inputNome)) {
+        alertNome();
+        return;
+    };
     inputNome.value = '';
     try {
         const data = {
             nome: value
         };
-        const response = await postData('http://127.0.0.1:8080/cidadaos', data);
+        const response = await postData(`${API_URL}/cidadaos`, data);
         preencheCidadao('cadastro', response);
     } catch (error) {
         console.error("Erro ao cadastrar cidadão:", error);
@@ -129,9 +138,13 @@ async function buscaCidadao(event) {
     event.preventDefault();
     const inputNis = document.querySelector('#nis');
     const value = inputNis.value;
+    if (validaNis(inputNis)) {
+        alertNis();
+        return;
+    }
     inputNis.value = '';
     try {
-        const response = await fetchData(`http://127.0.0.1:8080/cidadaos/${value}`);
+        const response = await fetchData(`${API_URL}:8080/cidadaos/${value}`);
         preencheCidadao('busca', response);
     } catch (error) {
         console.error("Erro ao buscar dados do cidadão:", error);
@@ -139,20 +152,28 @@ async function buscaCidadao(event) {
 }
 
 async function buscaAllCidadaos() {
-    const response = await fetchData('http://127.0.0.1:8080/cidadaos');
+    const response = await fetchData(`${API_URL}/cidadaos`);
     const rows = generateRows(response);
     updateTable(rows);
 }
 
+// MASCARA DE FORMULÁRIO
+
+function mascaraNis(event) {
+    event.target.value = event.target.value
+        .replace(/[^0-9]/g, '');
+}
 
 // COMPONENTES DO DOM
 
 const formBusca = document.querySelector('#form-busca');
 const formCadastro = document.querySelector('#form-cadastro');
 const listaCidadaos = document.querySelector('#lista');
+const inputNis = document.querySelector('#nis');
 
 // LISTENERS
 
+inputNis.addEventListener('input', mascaraNis);
 formBusca.addEventListener('submit', buscaCidadao);
 formCadastro.addEventListener('submit', criaCidadao);
 document.addEventListener("DOMContentLoaded", function () {
@@ -172,6 +193,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
     observer.observe(listaCidadaos, config);
 });
+
+// VALIDAÇÃO DE FORMULÁRIO
+
+function validaNome(input) {
+    const value = input.value;
+    return (value.length < 3)
+}
+
+function alertNome() {
+    alert("Nome deve ter no mínimo 3 caracteres.");
+}
+
+function validaNis(input) {
+    const value = input.value;
+    return (value.length !== 11)
+}
+
+function alertNis() {
+    alert("NIS deve ter 11 caracteres.");
+}
 
 // CRÉDITOS
 
