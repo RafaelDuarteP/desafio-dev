@@ -127,12 +127,13 @@ function toggleCard(local, status) {
 
 async function criaCidadao(event) {
     event.preventDefault();
+    removerAlerta('cadastro');
     toggleCard('cadastro', false);
     const inputNome = document.querySelector('#nome');
     validaNome(inputNome);
     const value = inputNome.value
     if (validaNome(inputNome)) {
-        alertNome();
+        alerta('cadastro');
         return;
     };
     inputNome.value = '';
@@ -152,10 +153,11 @@ async function criaCidadao(event) {
 async function buscaCidadao(event) {
     event.preventDefault();
     toggleCard('busca', false);
+    removerAlerta('busca');
     const inputNis = document.querySelector('#nis');
     const value = inputNis.value;
     if (validaNis(inputNis)) {
-        alertNis();
+        alerta('busca');
         return;
     }
     inputNis.value = '';
@@ -219,8 +221,21 @@ function validaNome(input) {
     return (value.length < 3)
 }
 
-function alertNome() {
-    alert("Nome deve ter no mínimo 3 caracteres.");
+function alerta(local) {
+    const input = document.querySelector(`#${local} input`);
+    const tooltip = document.querySelector(`#${local} .invalid-feedback`);
+
+    input.classList.add('is-invalid');
+    tooltip.classList.remove('d-none');
+}
+
+function removerAlerta(local) {
+    const input = document.querySelector(`#${local} input`);
+    const tooltip = document.querySelector(`#${local} .invalid-feedback`);
+
+    input.classList.remove('is-invalid');
+    tooltip.classList.add('d-none');
+
 }
 
 function validaNis(input) {
@@ -228,9 +243,6 @@ function validaNis(input) {
     return (value.length !== 11)
 }
 
-function alertNis() {
-    alert("NIS deve ter 11 caracteres.");
-}
 
 // CRÉDITOS
 
