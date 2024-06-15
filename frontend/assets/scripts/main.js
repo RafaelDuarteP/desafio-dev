@@ -109,6 +109,13 @@ function updateTable(rows) {
     if (rows !== "") {
         table.innerHTML = rows;
     }
+    else {
+        table.innerHTML = `
+        <tr>
+            <th scope="row" colspan="2">nenhum cidadão cadastrado</th>
+        </tr>
+        `;
+    }
 }
 
 function toggleLoading(local, status) {
@@ -172,9 +179,11 @@ async function buscaCidadao(event) {
 }
 
 async function buscaAllCidadaos() {
+    toggleLoading('lista', true);
     const response = await fetchData(`${API_URL}/cidadaos`);
     const rows = generateRows(response);
     updateTable(rows);
+    toggleLoading('lista', false);
 }
 
 // MASCARA DE FORMULÁRIO
