@@ -8,4 +8,4 @@ COPY ./ /app
 
 EXPOSE 5500
 
-CMD ["http-server", "-p", "5500"]
+CMD ["http-server", "-p", "5500", "-c-1"]

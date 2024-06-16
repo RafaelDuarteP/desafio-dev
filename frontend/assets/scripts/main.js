@@ -1,6 +1,6 @@
 // CONSTANTES
 
-const API_URL = 'http://api:8080';
+const API_URL = 'http://localhost:3333/api';
 
 // NAVEGAÇÃO ENTRE AS PÁGINAS
 
