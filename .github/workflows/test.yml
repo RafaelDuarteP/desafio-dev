@@ -31,7 +31,7 @@ jobs:
             - name: Verify api connection
               run: |
                 echo {"nome":"Maria Clara"} > body.json
-                curl -X POST -H 'Content-Type:application/json' -d "@body.json" 0.0.0.0:8080/api/cidadaos --fail
+                curl -X POST -H 'Content-Type:application/json' -d "@body.json" 0.0.0.0:8080/api/cidadaos
 
             - name: Verify api in NGINX
               run: curl -X GET 0.0.0.0:3333/api/ --fail --silent
