@@ -28,10 +28,14 @@ jobs:
             - name: Verify app
               run: curl -X GET 0.0.0.0:5500/ --fail --silent
 
-            - name: Verify api connection
+            - name: Verify API connection
               run: |
-                echo {"nome":"Maria Clara"} > body.json
-                curl -X POST -H 'Content-Type:application/json' -d "@body.json" 0.0.0.0:8080/cidadaos
+                cat <<EOF > body.json
+                {
+                  "nome": "Maria Clara"
+                }
+                EOF
+                curl -X POST -H "Content-Type:application/json" -d "@body.json" http://0.0.0.0:8080/api/cidadaos --fail
 
             - name: Verify api in NGINX
               run: curl -X GET 0.0.0.0:3333/api/ --fail --silent
