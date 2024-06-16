@@ -35,7 +35,7 @@ jobs:
                   "nome": "Maria Clara"
                 }
                 EOF
-                curl -X POST -H "Content-Type:application/json" -d "@body.json" http://0.0.0.0:8080/api/cidadaos --fail
+                curl -X POST -H "Content-Type:application/json" -d "@body.json" http://0.0.0.0:8080/cidadaos --fail
 
             - name: Verify api in NGINX
               run: curl -X GET 0.0.0.0:3333/api/ --fail --silent
