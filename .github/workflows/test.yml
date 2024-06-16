@@ -21,6 +21,13 @@ jobs:
 
             - name: Run services
               run: docker-compose up -d
+
+            - name: Wait for MySQL to be ready
+              run: |
+                until docker exec desafio_dev_mysql mysqladmin ping -h"127.0.0.1" --silent; do
+                  echo "Waiting for MySQL to be ready..."
+                  sleep 5
+                done
             
             - name: Verify api
               run: curl -X GET 0.0.0.0:8080/ --fail --silent
