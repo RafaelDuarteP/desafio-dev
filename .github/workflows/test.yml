@@ -22,8 +22,20 @@ jobs:
             - name: Run services
               run: docker-compose up -d
             
-            - name: Verify
-              run: docker ps
+            - name: Verify api
+              run: curl -X GET 0.0.0.0:8080/ --fail --silent
+
+            - name: Verify app
+              run: curl -X GET 0.0.0.0:5500/ --fail --silent
+
+            - name: Verify api connection
+              run: curl -X POST -H 'Content-Type:application/json' -d '{"nome":"Maria Clara"}' 0.0.0.0:8080/api/cidadaos --fail --silent
+
+            - name: Verify api in NGINX
+              run: curl -X GET 0.0.0.0:3333/api/ --fail --silent
+
+            - name: Verify app in NGINX
+              run: curl -X GET 0.0.0.0:3333/ --fail --silent
             
             - name: Down services
               if: always()
